@@ -58,12 +58,13 @@ func main() {
 			code = resp.StatusCode
 		}
 
-		w.WriteHeader(code)
 		for k, vals := range resp.Header {
 			for _, val := range vals {
 				w.Header().Add(k, val)
 			}
 		}
+		w.WriteHeader(code)
+
 		_, err = io.Copy(w, resp.Body)
 		if err != nil {
 			log.Printf("error writing response: %v", err)
